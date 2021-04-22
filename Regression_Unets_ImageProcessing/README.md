@@ -1,5 +1,5 @@
 # Regression-UNets-RGB-video-processing
-Regression UNets, Mobile application project
+This Project contains both the Image processing and video processing code which is developed in Pytorch framework.
 
 ## Training:
 > python main.py --exp_name exp_unet
