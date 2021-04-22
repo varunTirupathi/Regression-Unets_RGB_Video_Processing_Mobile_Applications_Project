@@ -1,6 +1,6 @@
 # Regression-Unets_RGB_Video_Processing_Mobile_Applications_Project
 
-1)Regression_Unets_ImageProcessing
+1) Regression_Unets_ImageProcessing
 
 This Project contains the code of image and video processing which is developed in pytorch framework.
 
@@ -11,7 +11,7 @@ Filters that applied for image processing are:
   4)Blur
   5)Sharpen
   
-2)Regression_Unets_VideoProcessing
+2) Regression_Unets_VideoProcessing
 
 This project contains the code of video processing which is developed in pytorch lightening framework.
 
