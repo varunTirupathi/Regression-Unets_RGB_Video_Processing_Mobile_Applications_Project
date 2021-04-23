@@ -21,3 +21,7 @@ Filters that applied for video processing are:
   2)Temporal Median
 
   Sample entropy function is also implemented to calculate the entropies.
+  
+ 3) scripts
+
+Compute canada cluster related scripts that are implemented to execute the code are present in this.
