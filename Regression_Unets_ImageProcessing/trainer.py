@@ -34,7 +34,7 @@ class Trainer:
 		self.text_logger = text_logger
 		self.is_training = True
 
-		# Will be used only if you restart the training from a certain pretrained model.
+		# Will be used only if we restart the training from a certain pretrained model.
 		if self.hparams.resume:
 			assert os.path.isfile(self.hparams.resume)
 			self.checkpoint = torch.load(self.hparams.resume)
@@ -59,7 +59,7 @@ class Trainer:
 		if self.checkpoint is not None:
 			self.optimizer.load_state_dict(self.checkpoint['optimizer'])
 
-	# Here you can define various loss functions as per the requirement.
+	# Here we can define various loss functions as per the requirement.
 	@staticmethod
 	def calculate_loss(gt_mask, predicted_mask):
 		return torch.nn.functional.mse_loss(predicted_mask, gt_mask)
@@ -126,8 +126,6 @@ class Trainer:
 		if self.hparams.store_video:
 			if not os.path.exists(self.result_dir):
 				os.makedirs(self.result_dir)
-
-			# Write the results in the log file. (input video, mask_video and predicted video)
 			
 			video_size = (320, 240)
 			image_video = VideoWriter(os.path.join(self.result_dir, 'image_video.avi'), self.hparams.fps, video_size)
