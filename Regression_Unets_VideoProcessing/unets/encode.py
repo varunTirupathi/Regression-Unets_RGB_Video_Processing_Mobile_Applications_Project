@@ -3,9 +3,7 @@ from typing import Dict, List, Tuple
 import torch.nn as nn
 from torch import Tensor
 from torch.nn import MaxPool2d, MaxPool3d
-
 from unets.conv import ConvUnit
-
 
 class EncodeBlock(nn.Module):
     """The downward / encoding layers of the U-Net"""
