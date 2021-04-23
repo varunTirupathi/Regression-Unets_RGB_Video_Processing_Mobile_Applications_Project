@@ -1,6 +1,5 @@
 import argparse
 import os
-
 import cv2
 import numpy as np
 import pytorch_lightning as pl
@@ -9,7 +8,6 @@ import torchvision.transforms as transforms
 from PIL import Image
 from scipy.ndimage import gaussian_filter1d
 from torch.utils.data import DataLoader, Dataset
-
 from unets.unet import UNet3d, UNet3d2d
 from temporal_median import temporal_median_filter_multi2
 
@@ -119,7 +117,6 @@ class Video3DDataset(Dataset):
         self.train = train
         self.video_path = video_path
         self.eval = evaluate
-
         self.min_size = 32
         self.index_links = self.find_index_links()
         self.mask = mask
