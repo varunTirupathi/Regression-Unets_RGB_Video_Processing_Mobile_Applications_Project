@@ -1,6 +1,5 @@
 import argparse
 import os
-
 import cv2
 import numpy as np
 import pytorch_lightning as pl
@@ -8,7 +7,6 @@ import torch
 import torchvision.transforms as transforms
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
-
 from unets.unet import UNet3d, UNet3d2d
 
 def cv2pil_input(image):
@@ -30,7 +28,6 @@ class Video3DDataset(Dataset):
         self.train = train
         self.video_path = video_path
         self.eval = evaluate
-
         self.min_size = 32
         self.index_links = self.find_index_links()
 
@@ -70,7 +67,6 @@ class Video3DDataset(Dataset):
     def __getitem__(self, index):
         vid = self.index_links[index, 1]
         vid_i = self.index_links[index, 2]
-
         frame = []
         masks = []
         cap = cv2.VideoCapture(self.videos_full_path[vid])                      # read input data point from the video.
@@ -85,17 +81,13 @@ class Video3DDataset(Dataset):
                     masks.append(mask_i)
 
         frame = [self.img_transform(cv2pil_input(x)).unsqueeze(0) for x in frame]       # pre-process the input data points.
-
         frame = torch.cat(frame, axis=0)        # [frames, channels, height, width]
         frame = frame.permute(1, 0, 2, 3)       # [channel, frames, height, width]
-        frame = frame.permute(0, 2, 3, 1)       # [channel, height, width, frames]
-        
+        frame = frame.permute(0, 2, 3, 1)       # [channel, height, width, frames]     
         masks = [self.img_transform(cv2pil_input(x)).unsqueeze(0) for x in masks]       # pre-process the ground truth data points.
-
         masks = torch.cat(masks, axis=0)        # [masks, channels, height, width]
         masks = masks.permute(1, 0, 2, 3)       # [channel, maskss, height, width]
         masks = masks.permute(0, 2, 3, 1)       # [channel, height, width, frames]
-
         return frame, masks
 
 def params():
