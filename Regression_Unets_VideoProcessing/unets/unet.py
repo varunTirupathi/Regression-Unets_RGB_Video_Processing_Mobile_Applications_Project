@@ -2,11 +2,9 @@ import torch as t
 import torch.nn as nn
 from torch import Tensor
 from torch.nn import Conv2d, Conv3d
-
 from unets.conv import ConvUnit
 from unets.decode import Decoder
 from unets.encode import Encoder
-
 
 class JoinBlock(nn.Module):
     """The bottom block of the U-Net, which performs no real down- or up-sampling
@@ -73,7 +71,6 @@ class UNet3d(nn.Module):
         self.segmenter = Conv(
             in_channels=2 * initial_features, out_channels=n_labels, kernel_size=1, stride=1
         )
-        # use torch.nn.BCEWithLogitsLoss instead of sigmoid activation here
 
     def forward(self, x: Tensor) -> Tensor:
         x, skips = self.encoder(x)
@@ -125,7 +122,6 @@ class UNet3d2d(nn.Module):
         self.segmenter = Conv2d(
             in_channels=2 * initial_features, out_channels=n_labels, kernel_size=1, stride=1
         )
-        # use torch.nn.BCEWithLogitsLoss instead of sigmoid activation here
 
     def forward(self, x: Tensor) -> Tensor:
         x, skips = self.encoder(x)
