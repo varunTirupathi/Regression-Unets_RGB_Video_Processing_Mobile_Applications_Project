@@ -3,7 +3,7 @@ from torch import Tensor
 from torch.nn import Conv2d, Conv3d, GroupNorm, ReLU
 
 
-# just a clone of https://github.com/fepegar/unet/blob/v0.7.5/unet/conv.py for now.
+#Code adapted from https://github.com/fepegar/unet/blob/v0.7.5/unet/conv.py
 class ConvUnit(nn.Module):
     """A combination convolution, (group) normalization, and activation layer"""
 
