@@ -21,6 +21,6 @@ cd $SLURM_TMPDIR  # go to /home/varun94
 module load python/3.6
 source $HOME/Runets_PL/bin/activate
 echo 'Successfully loaded $HOME virtual environment'
-#python $PROJECT/main_3DUNet_lightning_temporal_mean.py --mask TemporalMedian --video_path $VIDEOS
-#python $PROJECT/temporal_median.py --i $VIDEOS 
+python $PROJECT/temporal_median.py --i $VIDEOS 
+python $PROJECT/main_3DUNet_lightning_temporal_mean.py --mask TemporalMedian --video_path $VIDEOS
 python $PROJECT/test.py --mask TemporalMedian --video_path $VIDEOS
