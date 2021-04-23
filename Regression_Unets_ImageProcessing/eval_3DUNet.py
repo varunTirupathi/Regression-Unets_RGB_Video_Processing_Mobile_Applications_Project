@@ -13,7 +13,6 @@ def get_3d_dataloader(hparams):
                              num_workers=hparams.workers)
     return data_loader
 
-
 def params():
     parser = argparse.ArgumentParser(description='UNet filter training')
     parser.add_argument('--seed', type=int, default=1234)
@@ -60,7 +59,6 @@ def params():
     hparams = parser.parse_args()
     return hparams
 
-
 if __name__ == '__main__':
     # Get the hyper-parameters.
     hparams = params()
@@ -71,7 +69,6 @@ if __name__ == '__main__':
 
     # Get the dataloaders.
     data_loader = get_3d_dataloader(hparams)
-
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
     # Create UNet model.
@@ -114,7 +111,6 @@ for idx, data in enumerate(data_loader):
     mask = mask[0][0]
     mask = np.dstack([mask, mask, mask])
     plt.imsave(str(PROJECT) + 'gt_{}.png'.format(idx), mask)
-
     predicted_mask = predicted_mask[0][0]
     predicted_mask = np.dstack([predicted_mask, predicted_mask, predicted_mask])
     plt.imsave(str(PROJECT) + 'prediction_{}.png'.format(idx),predicted_mask)
