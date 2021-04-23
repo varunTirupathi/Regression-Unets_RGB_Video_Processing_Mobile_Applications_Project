@@ -7,6 +7,7 @@ import numpy as np
 import torch
 import torchvision.transforms as transforms
 from torch.utils.data import Dataset
+from torch.utils.data import DataLoader
 
 # PIL Image stores image in (RGB) and cv2 stores image in (BGR)
 # Converts PIL Image to cv2 image.
@@ -33,7 +34,6 @@ class Filter:
 		image = self.apply_filter(image)
 		return cv2pil(image)
 
-
 class CannyEdgeDetection(Filter):
 	@staticmethod
 	def apply_filter(image, sigma=0.33):
@@ -45,13 +45,11 @@ class CannyEdgeDetection(Filter):
 		edged = 255 - edged
 		return edged
 
-
 class Blur(Filter):
 	@staticmethod
 	def apply_filter(image, kernel_size=(5,5)):
 		# Ref. https://docs.opencv.org/master/d4/d13/tutorial_py_filtering.html
 		return cv2.blur(image, kernel_size)
-
 
 class Emboss(Filter):
 	@staticmethod
@@ -84,7 +82,6 @@ class GaussianBlur(Filter):
 	def apply_filter(image, kernel_size=(5,5), sigma=0):
 		return cv2.GaussianBlur(image, kernel_size, sigma)
 
-
 class Sharpen(Filter):
 	@staticmethod
 	def apply_filter(image, kernel=None, sharpening_factor=1):
@@ -94,7 +91,6 @@ class Sharpen(Filter):
 							   [-1, 9+sharpening_factor, -1], 
 							   [-1, -1, -1]])
 		return cv2.filter2D(image, -1, kernel)
-
 
 class SampleEntropy:
 	def __init__(self, m=2):
@@ -154,7 +150,6 @@ mask_transform = [
 	transforms.ToTensor()
 ]
 
-
 class ImageDataset(Dataset):
 	def __init__(self, img_dir, mask_dir='', train=True, img_transform=img_transform, mask_transform=mask_transform, mask_filter='CannyEdgeDetection', use_masks_from_dir=False):
 		self.img_dir = img_dir
@@ -188,11 +183,8 @@ class ImageDataset(Dataset):
 
 	def __getitem__(self, index):
 		idx = self.ids[index]
-
 		img_files = glob.glob(os.path.join(self.img_dir, idx+'.*'))
-
 		assert len(img_files) == 1, f'{idx}: {img_files}'
-
 		img = Image.open(img_files[0])
 
 		# If we want to use masks from saved dataset.
@@ -204,7 +196,6 @@ class ImageDataset(Dataset):
 			return self.img_transform(img), self.img_transform(mask)
 
 		return self.img_transform(img), self.mask_transform(img)
-
 
 class VideoDataset(Dataset):
 	def __init__(self, video_path, train=False, img_transform=img_transform, mask_transform=mask_transform, mask_filter='CannyEdgeDetection', evaluate=False):
@@ -300,7 +291,6 @@ class Video3DDataset(Dataset):
 		self.train = train
 		self.video_path = video_path
 		self.eval = evaluate
-
 		self.min_size = 20
 		self.index_links = self.find_index_links()
 		self.mask_transform = SampleEntropy(self.min_size-1)
@@ -355,11 +345,8 @@ if __name__ == '__main__':
 	video_path = 'output_2.avi'
 	video_path = "D:/Mobile_research_ project/dataset/dataset/vid"
 	dataset = Video3DDataset(video_path, train=True, mask_filter='CannyEdgeDetection')
-
-	from torch.utils.data import DataLoader
 	train_loader = DataLoader(dataset, batch_size=2, shuffle=True, drop_last=True, num_workers=4)
-	from tqdm import tqdm
 	
 	for data in tqdm(train_loader):
 		img, mask = data
-		import pdb; pdb.set_trace()
+		
